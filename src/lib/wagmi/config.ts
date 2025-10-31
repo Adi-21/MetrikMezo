@@ -1,5 +1,6 @@
 import { http } from 'wagmi';
 import { createConfig } from 'wagmi';
+import { type Chain } from 'viem';
 import { CONTRACT_ADDRESSES } from '../contracts/config';
 import { type Abi } from 'viem';
 import stakingAbi from '../../lib/contracts/abis/Staking.json';
@@ -9,26 +10,25 @@ import mockERC20Abi from '../../lib/contracts/abis/MockERC20.json';
 import borrowRegistryAbi from '../../lib/contracts/abis/BorrowRegistry.json';
 
 // Mezo Testnet chain config
-export const mezoTestnet = {
+export const mezoTestnet: Chain = {
   id: 31611,
   name: 'Mezo Testnet',
-  network: 'mezo-testnet',
   nativeCurrency: {
     name: 'Bitcoin',
     symbol: 'BTC',
     decimals: 18,
   },
   rpcUrls: {
-    default: { http: ['https://rpc.test.mezo.org'] },
-    public: { http: ['https://rpc.test.mezo.org'] },
-    websocket: ['wss://rpc-ws.test.mezo.org'],
+    default: { http: ['https://rpc.test.mezo.org'], webSocket: ['wss://rpc-ws.test.mezo.org'] },
+    public: { http: ['https://rpc.test.mezo.org'], webSocket: ['wss://rpc-ws.test.mezo.org'] },
   },
   blockExplorers: {
     default: { name: 'Mezo Explorer', url: 'https://explorer.test.mezo.org' },
   },
+  testnet: true,
 } as const;
 
-export const SUPPORTED_CHAINS = [mezoTestnet] as const;
+export const SUPPORTED_CHAINS = [mezoTestnet] as const satisfies readonly [Chain, ...Chain[]];
 
 export const CONTRACT_ABIS = {
   STAKING: stakingAbi.abi,
